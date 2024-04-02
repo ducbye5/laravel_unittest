@@ -7,14 +7,19 @@ use App\Http\Controllers\ExampleController;
 
 class AssertionExampleTest extends TestCase
 {
-    public function testAssertExample()
+    public function testAssertTrueExample()
     {
-        // assertTrue
         $this->assertTrue(true);
         self::assertTrue(true);
-        // assertFalse
+    }
+
+    public function testAssertFalseExample()
+    {
         $this->assertFalse(false);
-        // assertArrayHasKey
+    }
+
+    public function testAssertArrayHasKeyExample()
+    {
         $key = 'key_1';
         $arr = [
             'key_1' => 'value 1',
@@ -23,18 +28,32 @@ class AssertionExampleTest extends TestCase
         ];
 
         $this->assertArrayHasKey($key, $arr);
-        // assertIsInt
+    }
+
+    public function testAssertIsIntExample()
+    {
         $this->assertIsInt(5);
-        // assertStringStartsWith
+    }
+
+    public function testAssertIsFloatExample()
+    {
+        $this->assertIsfloat(5.2);
+    }
+
+    public function testAssertStringStartsWithExample()
+    {
         $string = 'Chuỗi dùng để test';
         $prefix = 'Chuỗi';
 
         $this->assertStringStartsWith($prefix, $string);
-        // assertSame
-        $actual = 1;
-        $expect = 1;
+    }
 
-        $this->assertSame($expect, $actual);
+    public function testAssertStringEndsWithExample()
+    {
+        $string = 'Chuỗi dùng để test';
+        $prefix = 'test';
+
+        $this->assertStringEndsWith($prefix, $string);
     }
 
     public function testSumMethodWithValidInputShouldReturnCorrect()
@@ -42,7 +61,7 @@ class AssertionExampleTest extends TestCase
         $exampleController = new ExampleController();
         $actual = $exampleController->sum(1, 2);
         $expect = 3;
-
+        // sử dụng toán tử equals , so sánh giá trị
         $this->assertEquals($expect, $actual);
     }
 
@@ -51,7 +70,7 @@ class AssertionExampleTest extends TestCase
         $exampleController = new ExampleController();
         $actual = $exampleController->sub(2, 1);
         $expect = 1;
-
+        // sử dụng toán tử == để so sánh địa chỉ bộ nhớ của 2 đối tượng
         $this->assertSame($expect, $actual);
     }
 }
