@@ -3,15 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Services\ExampleService;
 
 class ExampleController extends Controller
 {
-    public  function sum(int $a, int $b)
+    private $exampleService;
+
+    public function __construct(ExampleService $exampleService)
+	{
+		$this->exampleService = $exampleService;
+	}
+
+    public function sum(int $a, int $b)
     {
         return $a + $b;
     }
 
-    public  function sub(int $a, int $b)
+    public function sub(int $a, int $b)
     {
         return $a - $b;
     }
@@ -23,13 +31,13 @@ class ExampleController extends Controller
 
     public function largeTimeout()
     {
-//        sleep(70);
+       sleep(70);
         return true;
     }
 
     public function mediumTimeout()
     {
-//        sleep(15);
+       sleep(15);
         return true;
     }
 
@@ -37,5 +45,21 @@ class ExampleController extends Controller
     {
         sleep(5);
         return true;
+    }
+
+    public function getEmailByUserId($id)
+    {
+        $email = $this->exampleService->getEmailByUserId($id);
+
+        return $this->replaceEmailDomain($email);
+    }
+
+    private replaceEmailDomain($email)
+    {
+        if (! $email) {
+            $email = str_replace('@gmail.com', '@vti.com.vn', $email);
+        }
+
+        return $email;
     }
 }
