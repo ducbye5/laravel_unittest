@@ -51,15 +51,20 @@ class ExampleController extends Controller
     {
         $email = $this->exampleService->getEmailByUserId($id);
 
+        if ($this->checkExistEmail($email)) {
+            return null;
+        }
+
         return $this->replaceEmailDomain($email);
+    }
+
+    protected function checkExistEmail($email)
+    {
+        return empty($email);
     }
 
     private function replaceEmailDomain($email)
     {
-        if ($email) {
-            $email = str_replace('@gmail.com', '@vti.com.vn', $email);
-        }
-
-        return $email;
+        return str_replace('@gmail.com', '@vti.com.vn', $email);
     }
 }

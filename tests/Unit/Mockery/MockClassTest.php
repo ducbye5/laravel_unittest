@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Mockery;
 
+use App\Http\Services\ExampleService;
 use PHPUnit\Framework\TestCase;
 use Mockery;
 use App\Http\Controllers\ExampleController;
@@ -14,7 +15,8 @@ class MockClassTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->mockExampleService = Mockery::mock('\App\Http\Services\ExampleService');
+        $this->mockExampleService = Mockery::mock('\App\Http\Services\ExampleService')->makePartial();
+//        $this->mockExampleService = Mockery::mock(ExampleService::class)->makePartial();
     }
 
     protected function tearDown(): void
@@ -26,6 +28,7 @@ class MockClassTest extends TestCase
     public function testGetUserMethodWithValidIdAndReturnCorrectData()
     {
         $userId = 1;
+
         $this->mockExampleService
     	    ->shouldReceive('getEmailByUserId')
     	    ->times(1)
@@ -41,6 +44,23 @@ class MockClassTest extends TestCase
         $expect = 'example@vti.com.vn';
 
         $this->assertEquals($expect, $actual);
+    }
+
+    public function testCheckExistEmailProtectedMethod()
+    {
+        $email = 'example1@gmail.com';
+
+        $this->exampleController = new ExampleController(
+            $this->mockExampleService
+        );
+
+        $reflection = new \ReflectionClass('\App\Http\Controllers\ExampleController');
+        $method = $reflection->getMethod('checkExistEmail');
+        $method->setAccessible(TRUE);
+
+        $actual = $method->invokeArgs($this->exampleController, [$email]);
+
+        $this->assertFalse($actual);
     }
 
     public function testReplaceEmailDomainPrivateMethod()
