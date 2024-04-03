@@ -5,12 +5,12 @@ namespace Tests\Unit\Mockery;
 use App\Http\Services\ExampleService;
 use PHPUnit\Framework\TestCase;
 use Mockery;
-use App\Http\Controllers\ExampleController;
+use App\Http\Controllers\MockExampleController;
 
 class MockClassTest extends TestCase
 {
     private $mockExampleService;
-    private $exampleController;
+    private $mockExampleController;
 
     public function setUp(): void
     {
@@ -36,11 +36,11 @@ class MockClassTest extends TestCase
                 'example@gmail.com'
             );
 
-        $this->exampleController = new ExampleController(
+        $this->mockExampleController = new MockExampleController(
             $this->mockExampleService
         );
 
-        $actual = $this->exampleController->getEmailByUserId($userId);
+        $actual = $this->mockExampleController->getEmailByUserId($userId);
         $expect = 'example@vti.com.vn';
 
         $this->assertEquals($expect, $actual);
@@ -50,15 +50,15 @@ class MockClassTest extends TestCase
     {
         $email = 'example1@gmail.com';
 
-        $this->exampleController = new ExampleController(
+        $this->mockExampleController = new MockExampleController(
             $this->mockExampleService
         );
 
-        $reflection = new \ReflectionClass('\App\Http\Controllers\ExampleController');
+        $reflection = new \ReflectionClass('\App\Http\Controllers\MockExampleController');
         $method = $reflection->getMethod('checkExistEmail');
         $method->setAccessible(TRUE);
 
-        $actual = $method->invokeArgs($this->exampleController, [$email]);
+        $actual = $method->invokeArgs($this->mockExampleController, [$email]);
 
         $this->assertFalse($actual);
     }
@@ -67,15 +67,15 @@ class MockClassTest extends TestCase
     {
         $email = 'example1@gmail.com';
 
-        $this->exampleController = new ExampleController(
+        $this->mockExampleController = new MockExampleController(
             $this->mockExampleService
         );
 
-        $reflection = new \ReflectionClass('\App\Http\Controllers\ExampleController');
+        $reflection = new \ReflectionClass('\App\Http\Controllers\MockExampleController');
         $method = $reflection->getMethod('replaceEmailDomain');
         $method->setAccessible(TRUE);
 
-        $actual = $method->invokeArgs($this->exampleController, [$email]);
+        $actual = $method->invokeArgs($this->mockExampleController, [$email]);
         $expect = 'example1@vti.com.vn';
 
         $this->assertEquals($expect, $actual);
