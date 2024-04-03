@@ -1,11 +1,10 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Mockery;
 
 use PHPUnit\Framework\TestCase;
 use Mockery;
 use App\Http\Controllers\ExampleController;
-use use App\Http\Services\ExampleService;
 
 class MockClassTest extends TestCase
 {
@@ -15,7 +14,7 @@ class MockClassTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->mockExampleService = Mockery::mock('ExampleService');
+        $this->mockExampleService = Mockery::mock('\App\Http\Services\ExampleService');
     }
 
     protected function tearDown(): void
@@ -31,7 +30,7 @@ class MockClassTest extends TestCase
     	    ->shouldReceive('getEmailByUserId')
     	    ->times(1)
     	    ->andReturn(
-                (object)['email' => 'example@gmail.com']
+                'example@gmail.com'
             );
 
         $this->exampleController = new ExampleController(
@@ -52,11 +51,11 @@ class MockClassTest extends TestCase
             $this->mockExampleService
         );
 
-        $reflection = new \ReflectionClass('ExampleController');
+        $reflection = new \ReflectionClass('\App\Http\Controllers\ExampleController');
         $method = $reflection->getMethod('replaceEmailDomain');
         $method->setAccessible(TRUE);
 
-        $actual = $method->invokeArgs($this->exampleController, $email);
+        $actual = $method->invokeArgs($this->exampleController, [$email]);
         $expect = 'example1@vti.com.vn';
 
         $this->assertEquals($expect, $actual);

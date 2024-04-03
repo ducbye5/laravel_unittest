@@ -54,9 +54,9 @@ class ExampleController extends Controller
         return $this->replaceEmailDomain($email);
     }
 
-    private replaceEmailDomain($email)
+    private function replaceEmailDomain($email)
     {
-        if (! $email) {
+        if ($email) {
             $email = str_replace('@gmail.com', '@vti.com.vn', $email);
         }
 

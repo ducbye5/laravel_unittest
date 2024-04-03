@@ -20,15 +20,15 @@ class ExampleService
         }
 
         $user = $this->userRepository->getUserById($id);
-
+dd($user);
         if (! $user) {
             return null;
         }
 
-        return $user->email;
+        return $user['email'];
     }
 
-    protected function validateUserId($id)
+    protected function validateUserId($id): bool
     {
         return is_int($id);
     }
