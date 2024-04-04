@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class ExampleController extends Controller
 {
@@ -38,10 +37,5 @@ class ExampleController extends Controller
     {
         sleep(5);
         return true;
-    }
-
-    public function getEmailFromCacheByKey($key)
-    {
-        return Cache::get($key);
     }
 }

@@ -24,4 +24,14 @@ class UserRepository
             ])->where('id', $id);
             ->first();        
     }
+
+    public function getUserNameByEmail($email)
+    {
+        return $this->model
+            ->query()
+            ->select([
+                'name'
+            ])->where('email', email);
+            ->first();
+    }
 }

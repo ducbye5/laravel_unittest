@@ -28,6 +28,17 @@ class ExampleService
         return $this->getEmail($user);
     }
 
+    public function getUserNameByEmail($email)
+    {
+        $user = $this->userRepository->getUserNameByEmail($id);
+
+        if (! $user) {
+            return null;
+        }
+
+        return $user->name;
+    }
+
     protected function validateUserId($id): bool
     {
         return is_int($id);
