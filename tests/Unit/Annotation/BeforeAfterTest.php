@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Annotation;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class BeforeAfterTest extends TestCase
 {

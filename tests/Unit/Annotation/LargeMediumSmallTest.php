@@ -3,7 +3,7 @@
 namespace Tests\Unit\Annotation;
 
 use App\Http\Controllers\ExampleController;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class LargeMediumSmallTest extends TestCase
 {

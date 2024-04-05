@@ -28,15 +28,9 @@ class ExampleService
         return $this->getEmail($user);
     }
 
-    public function getUserNameByEmail($email)
+    public function getNoReplyEmail(): string
     {
-        $user = $this->userRepository->getUserNameByEmail($id);
-
-        if (! $user) {
-            return null;
-        }
-
-        return $user->name;
+        return 'noreply@gamil.com';
     }
 
     protected function validateUserId($id): bool

@@ -3,7 +3,7 @@
 namespace Tests\Unit\Mockery;
 
 use App\Http\Services\ExampleService;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Mockery;
 use App\Http\Controllers\MockExampleController;
 

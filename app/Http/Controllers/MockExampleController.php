@@ -7,6 +7,7 @@ use App\Http\Services\ExampleService;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use App\Http\Jobs\DeleteUserJob;
 
 class MockExampleController extends Controller
 {
@@ -22,10 +23,8 @@ class MockExampleController extends Controller
         $email = $this->exampleService->getEmailByUserId($id);
 
         if ($this->checkExistEmail($email)) {
-            return null;
+            return $this->exampleService->getNoReplyEmail();
         }
-
-        $name = $this->exampleService->getUserNameByEmail($email);
 
         return $this->replaceEmailDomain($email);
     }
@@ -62,13 +61,13 @@ class MockExampleController extends Controller
         return $user;
     }
 
-    public function deleteUserByIds($id)
+    public function deleteUserByIds($ids)
     {
-        // dispatch job
+        DeleteUserJob::dispatch($ids);
     }
 
     public function storeFile()
     {
-        
+
     }
 }

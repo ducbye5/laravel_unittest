@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Assertion;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use App\Http\Controllers\ExampleController;
 
 class AssertionExampleTest extends TestCase

@@ -3,7 +3,7 @@
 namespace Tests\Unit\Mockery;
 
 use App\Http\Services\ExampleService;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Mockery;
 use App\Http\Controllers\MockExampleController;
 
@@ -16,7 +16,7 @@ class MockPartialTest extends TestCase
     {
         parent::setUp();
         $this->mockExampleService = Mockery::mock(ExampleService::class);
-        // $this->mockExampleService = Mockery::mock(ExampleService::class)->makePartial();
+//         $this->mockExampleService = Mockery::mock(ExampleService::class)->makePartial();
     }
 
     protected function tearDown(): void
@@ -35,6 +35,7 @@ class MockPartialTest extends TestCase
     	    ->andReturn(
                 'example@gmail.com'
             );
+//            ->andReturnNull();
 
         $this->mockExampleController = new MockExampleController(
             $this->mockExampleService
