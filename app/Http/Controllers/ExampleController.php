@@ -11,8 +11,11 @@ class ExampleController extends Controller
         return $a + $b;
     }
 
-    public function sub(int $a, int $b)
+    public function sub($a, $b)
     {
+        if (!is_int($a) || !is_int($b)) {
+            return new \Exception('abc');
+        }
         return $a - $b;
     }
 

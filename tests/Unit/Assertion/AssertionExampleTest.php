@@ -73,4 +73,33 @@ class AssertionExampleTest extends TestCase
         // sử dụng toán tử == để so sánh địa chỉ bộ nhớ của 2 đối tượng
         $this->assertSame($expect, $actual);
     }
+
+    /**
+     * @group sub
+     *
+     */
+    public function testSubMethodWithValidInputShouldReturnException()
+    {
+//        $this->expectExceptionMessage("A non-numeric value encountered");
+        $exampleController = new ExampleController();
+        $actual = $exampleController->sub('ab', 'cd');
+        $expect = new \Exception('abc');
+        // sử dụng toán tử == để so sánh địa chỉ bộ nhớ của 2 đối tượng
+        $this->assertInstanceOf(\Exception::class, $actual);
+        $this->assertEquals('abc', $actual->getMessage());
+    }
+
+    /**
+     * @group sub
+     */
+    public function testSubMethodWithValidInputShouldReturnException1()
+    {
+//        $this->expectExceptionMessage("A non-numeric value encountered");
+        $exampleController = new ExampleController();
+        $actual = $exampleController->sub('a', 'b');
+
+        $expect = new \Exception('abc');
+        // sử dụng toán tử == để so sánh địa chỉ bộ nhớ của 2 đối tượng
+        $this->assertInstanceOf(\Exception::class, $actual);
+    }
 }
