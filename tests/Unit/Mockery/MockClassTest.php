@@ -6,6 +6,7 @@ use App\Http\Services\ExampleService;
 use Tests\TestCase;
 use Mockery;
 use App\Http\Controllers\MockExampleController;
+use App\User;
 
 class MockClassTest extends TestCase
 {
@@ -69,6 +70,7 @@ class MockClassTest extends TestCase
         $this->assertEquals($expect, $actual);
     }
 
+    // trường hợp mock function trong cùng class
     public function testMockFunction()
     {
         $this->mockExampleController = Mockery::mock(MockExampleController::class)->makePartial();
@@ -101,6 +103,51 @@ class MockClassTest extends TestCase
 
         $actual = $this->mockExampleController->getEmailByUserId($userId);
         $expect = 'example@vti.com.vn';
+
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * @test
+     */
+    // instance mock class
+    public function instanceMockClass()
+    {
+        $userModel = Mockery::mock('overload:\App\User');
+        $userModel->shouldReceive('save')
+            ->times(1)
+            ->andReturn((object) ['email' => 'a@gmail']);
+
+        $this->app->instance(User::class, $userModel);
+        $this->mockExampleController = new MockExampleController(
+            $this->mockExampleService
+        );
+
+        $actual = $this->mockExampleController->createUser();
+        $expect = (object) ['email' => 'a@gmail'];
+
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * @test
+     */
+    // alias mock class
+    public function aliasMockClass()
+    {
+        // $userModel = Mockery::mock('overload:\App\User');
+        $userModel = Mockery::mock('alias:\App\User');
+        $userModel->shouldReceive('find')
+            ->times(1)
+            ->andReturn((object) ['email' => 'a@gmail']);
+
+        $this->app->instance(User::class, $userModel);
+        $this->mockExampleController = new MockExampleController(
+            $this->mockExampleService
+        );
+
+        $actual = $this->mockExampleController->findUser();
+        $expect = (object) ['email' => 'a@gmail'];
 
         $this->assertEquals($expect, $actual);
     }

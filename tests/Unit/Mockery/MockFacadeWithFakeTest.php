@@ -34,7 +34,6 @@ class MockFacadeWithFakeTest extends TestCase
 
         Queue::assertNothingPushed();
 
-//        DeleteUserJob::dispatch([1,2,3]);
         $this->mockExampleController->deleteUserByIds([1,2,3]);
         Queue::assertPushed(DeleteUserJob::class, 1);
 

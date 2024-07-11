@@ -71,12 +71,14 @@ class MockExampleController extends Controller
     public function createUser()
     {
         $user = new User();
-        $user->name = 'Merry';
-        $user->email = 'a@gmail.com';
-        $user->password = '123456';
-        $user->save();
+        $user->name = 'abc';
+        $user->email = 'abc@gmail.com';
+        return $user->save();
+    }
 
-        return $user;
+    public function findUser()
+    {
+        return User::find(1);
     }
 
     public function deleteUserByIds($ids)
