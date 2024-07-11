@@ -15,8 +15,8 @@ class MockClassTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->mockExampleService = Mockery::mock('\App\Http\Services\ExampleService')->makePartial();
-//        $this->mockExampleService = Mockery::mock(ExampleService::class)->makePartial();
+        $this->mockExampleService = Mockery::mock('\App\Http\Services\ExampleService');
+        // $this->mockExampleService = Mockery::mock(ExampleService::class)->makePartial();
     }
 
     protected function tearDown(): void
@@ -25,17 +25,40 @@ class MockClassTest extends TestCase
         Mockery::close();
     }
 
-    public function testGetUserMethodWithValidIdAndReturnCorrectData()
+    public function testInitializationMock()
     {
+        $this->mockExampleService = $this->instance(ExampleService::class, Mockery::mock(ExampleService::class, function ($mock) {
+            $mock->shouldReceive('getEmailByUserId')
+                ->once()
+                ->andReturn(
+                    'example@gmail.com'
+                );
+        }));
+
+        // $this->mockExampleService = $this->mock(ExampleService::class, function ($mock) {
+        //     $mock->shouldReceive('getEmailByUserId')
+        //         ->once()
+        //         ->andReturn(
+        //             'example@gmail.com'
+        //         );
+        // });
+
+        // $this->mockExampleService = $this->partialMock(ExampleService::class, function ($mock) {
+        //     $mock->shouldReceive('getEmailByUserId')
+        //         ->once()
+        //         ->andReturn(
+        //             'example@gmail.com'
+        //         );
+        // });
+
+        // $this->mockExampleService
+        //     ->shouldReceive('getEmailByUserId')
+        //     ->times(1)
+        //     ->andReturn(
+        //         'example@gmail.com'
+        //     );
+
         $userId = 1;
-
-        $this->mockExampleService
-    	    ->shouldReceive('getEmailByUserId')
-    	    ->times(1)
-    	    ->andReturn(
-                'example@gmail.com'
-            );
-
         $this->mockExampleController = new MockExampleController(
             $this->mockExampleService
         );
@@ -46,37 +69,38 @@ class MockClassTest extends TestCase
         $this->assertEquals($expect, $actual);
     }
 
-    public function testCheckExistEmailProtectedMethod()
+    public function testMockFunction()
     {
-        $email = 'example1@gmail.com';
+        $this->mockExampleController = Mockery::mock(MockExampleController::class)->makePartial();
+        $this->mockExampleController
+            ->shouldReceive('roundNumber')
+            ->times(1)
+            ->andReturn(5.99);
+        
+        $actual = $this->mockExampleController->formatNumber(2.99);
+        $expect = 5;
 
-        $this->mockExampleController = new MockExampleController(
-            $this->mockExampleService
-        );
-
-        $reflection = new \ReflectionClass('\App\Http\Controllers\MockExampleController');
-        $method = $reflection->getMethod('checkExistEmail');
-        $method->setAccessible(TRUE);
-
-        $actual = $method->invokeArgs($this->mockExampleController, [$email]);
-
-        $this->assertFalse($actual);
+        $this->assertEquals($expect, $actual);
     }
 
-    public function testReplaceEmailDomainPrivateMethod()
+    public function testMakePartial()
     {
-        $email = 'example1@gmail.com';
+        $userId = 1;
+
+        $this->mockExampleService
+            ->shouldReceive('getEmailByUserId')
+            ->times(1)
+            ->andReturn(
+                'example@gmail.com'
+            );
+        //    ->andReturnNull();
 
         $this->mockExampleController = new MockExampleController(
             $this->mockExampleService
         );
 
-        $reflection = new \ReflectionClass('\App\Http\Controllers\MockExampleController');
-        $method = $reflection->getMethod('replaceEmailDomain');
-        $method->setAccessible(TRUE);
-
-        $actual = $method->invokeArgs($this->mockExampleController, [$email]);
-        $expect = 'example1@vti.com.vn';
+        $actual = $this->mockExampleController->getEmailByUserId($userId);
+        $expect = 'example@vti.com.vn';
 
         $this->assertEquals($expect, $actual);
     }

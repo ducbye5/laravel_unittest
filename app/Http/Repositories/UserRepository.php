@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Http\Repositories;
@@ -10,9 +9,9 @@ class UserRepository
     private $model;
 
     public function __construct(User $user)
-	{
-		$this->model = $user;
-	}
+    {
+        $this->model = $user;
+    }
 
     public function getUserById($id)
     {
@@ -20,9 +19,10 @@ class UserRepository
             ->query()
             ->select([
                 'name',
-                'emai'
-            ])->where('id', $id);
-            ->first();        
+                'email'
+            ])
+            ->where('id', $id)
+            ->first();
     }
 
     public function getUserNameByEmail($email)
@@ -31,7 +31,8 @@ class UserRepository
             ->query()
             ->select([
                 'name'
-            ])->where('email', email);
+            ])
+            ->where('email', $email)
             ->first();
     }
 }

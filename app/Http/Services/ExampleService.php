@@ -9,9 +9,9 @@ class ExampleService
     private $userRepository;
 
     public function __construct(UserRepository $userRepository)
-	{
-		$this->userRepository = $userRepository;
-	}
+    {
+        $this->userRepository = $userRepository;
+    }
 
     public function getEmailByUserId($id)
     {
@@ -30,7 +30,7 @@ class ExampleService
 
     public function getNoReplyEmail(): string
     {
-        return 'noreply@gamil.com';
+        return 'noreply@gmail.com';
     }
 
     protected function validateUserId($id): bool

@@ -67,23 +67,25 @@ class MockFacadeTest extends TestCase
     public function testCreateUserAndReturnUserData()
     {
         $userModel = Mockery::mock('overload:App\User');
-        $this->mockExampleController->setModel($userModel);
-//        $this->app->instance(User::class, $userModel);
+        // $this->mockExampleController->createUser($userModel);
+        $this->app->instance(User::class, $userModel);
 
         $userModel->shouldReceive('save')
             ->times(1)
             ->andReturn(
-                new User([
+                (object)[
                     'id' => 1,
+                    'email' => 'a@gmail.com',
                     'name' => 'Merry',
                     'password' => '123456'
-                ])
+                ]
             );
-//        $this->app->instance(User::class, $userModel);
+        // $this->app->instance(User::class, $userModel);
 
         $actual = $this->mockExampleController->createUser();
         $expect = (object)[
             'id' => 1,
+            'email' => 'a@gmail.com',
             'name' => 'Merry',
             'password' => '123456'
         ];

@@ -18,18 +18,35 @@ class MockExampleController extends Controller
         $this->exampleService = $exampleService;
     }
 
+    public function formatNumber($number)
+    {
+        $number =  $this->roundNumber($number);
+
+        return $this->convertNumberToInt($number);
+    }
+
+    public function convertNumberToInt($number)
+    {
+        return (int) $number;
+    }
+
+    protected function roundNumber($number)
+    {
+        return round($number, 2);
+    }
+
     public function getEmailByUserId($id)
     {
         $email = $this->exampleService->getEmailByUserId($id);
 
-        if ($this->checkExistEmail($email)) {
+        if ($this->isNotExistEmail($email)) {
             return $this->exampleService->getNoReplyEmail();
         }
 
         return $this->replaceEmailDomain($email);
     }
 
-    protected function checkExistEmail($email)
+    protected function isNotExistEmail($email)
     {
         return empty($email);
     }
@@ -55,6 +72,7 @@ class MockExampleController extends Controller
     {
         $user = new User();
         $user->name = 'Merry';
+        $user->email = 'a@gmail.com';
         $user->password = '123456';
         $user->save();
 
@@ -64,10 +82,5 @@ class MockExampleController extends Controller
     public function deleteUserByIds($ids)
     {
         DeleteUserJob::dispatch($ids);
-    }
-
-    public function storeFile()
-    {
-
     }
 }
